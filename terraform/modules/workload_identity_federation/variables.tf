@@ -1,13 +1,3 @@
-variable "project_id" {
-    description = "project id for the terraform"
-    type = string
-}
-
-variable "region" {
-  description = "region for gcp"
-  type = string
-}
-
 variable "pool_id" {
   description = "workload pool id"
   type        = string
@@ -28,6 +18,10 @@ variable "service_account_id" {
   type        = string
 }
 
+variable "project_id" {
+    description = "project id for the terraform"
+    type = string
+}
 
 variable "project_number" {
     description = "project id for the terraform"

@@ -1,36 +1,101 @@
-# This is a basic workflow to help you get started with Actions
+name: 'Terraform'
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: 'write'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  PROJECT_ID: ${{vars.PROJECT_ID}}
+  REGION: ${{vars.REGION}}
+  SERVICE_ACCOUNT_EMAIL: ${{vars.SERVICE_ACCOUNT_EMAIL}}
+  PROJECT_NUMBER: ${{vars.PROJECT_NUMBER}}
+  WORKLOAD_PROVIDER: ${{vars.WORKLOAD_PROVIDER}}
+  POOL_ID: ${{vars.POOL_ID}}
+  ORG_ID: ${{vars.ORG_ID}}
+  REPO: ${{vars.REPO}}
+
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  terraform_plan:
+    name: 'Terraform'
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+
+    defaults:
+      run:
+        shell: bash
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    - id: auth
+      uses: google-github-actions/auth@v2.0.0  
+      with:
+        workload_identity_provider: ${{env.WORKLOAD_PROVIDER}}
+        service_account: ${{env.SERVICE_ACCOUNT_EMAIL}}
+        create_credentials_file: true
+      
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      # with:
+      #   cli_config_credentials_token: 
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - name: Terraform Init
+      run: terraform init
+      working-directory: terraform
+
+    - name: Terraform Validate
+      run: terraform validate -no-color
+      working-directory: terraform
+      
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="repo=${{env.REPO}}"
+      working-directory: terraform
+    
+
+  terraform_apply:
+    name: 'Terraform apply'
+    needs: [terraform_plan]
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - id: auth
+      uses: google-github-actions/auth@v2.0.0  
+      with:
+        workload_identity_provider: ${{env.WORKLOAD_PROVIDER}}
+        service_account: ${{env.SERVICE_ACCOUNT_EMAIL}}
+        create_credentials_file: true
+      
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      # with:
+      #   cli_config_credentials_token: 
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: terraform
+
+    # Generates an execution plan for Terraform
+    - name: Terraform validate
+      run: terraform validate -no-color
+      working-directory: terraform
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="repo=${{env.REPO}}"
+      working-directory: terraform
