@@ -18,3 +18,16 @@ module "cloudbuild" {
   secret_id = var.secret_id
   remote_uri = var.remote_uri
 }
+
+module "artifact_registry" {
+  source = "./modules/artifact_registry"
+  project_id = var.project_id
+  region = var.region
+}
+
+module "vertex_ai_workbench" {
+  source = "./modules/vetex_ai_workbench"
+  project_id = var.project_id
+  region = var.region
+  service_account_email = var.service_account_id
+}
