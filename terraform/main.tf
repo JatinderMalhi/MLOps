@@ -24,7 +24,7 @@ module "artifact_registry" {
   project_id = var.project_id
   region = var.region
 }
-
+###################################
 module "vertex_ai_workbench" {
   source = "./modules/vetex_ai_workbench"
   project_id = var.project_id
