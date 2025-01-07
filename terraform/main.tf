@@ -28,6 +28,5 @@ module "artifact_registry" {
 module "vertex_ai_workbench" {
   source = "./modules/vetex_ai_workbench"
   project_id = var.project_id
-  region = var.region
   service_account_email = var.service_account_id
 }
