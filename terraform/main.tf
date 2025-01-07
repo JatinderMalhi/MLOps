@@ -7,3 +7,14 @@ module "workload_identity" {
   project_number = var.project_number
   service_account_id = var.service_account_id
 }
+
+module "cloudbuild" {
+  source = "./modules/cloud_build"
+  project_id = var.project_id
+  region = var.region
+  project_number = var.project_number
+  installation_id = var.installation_id
+  cloud_build_github_pat = var.cloud_build_github_pat
+  secret_id = var.secret_id
+  remote_uri = var.remote_uri
+}

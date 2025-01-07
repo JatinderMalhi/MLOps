@@ -18,6 +18,9 @@ env:
   POOL_ID: ${{vars.POOL_ID}}
   ORG_ID: ${{vars.ORG_ID}}
   REPO: ${{vars.REPO}}
+  REMOTE_URI: ${{vars.REMOTE_URI}}
+  SECRET_ID: ${{vars.SECRET_ID}}
+  INSTALLATION_ID: ${{vars.INSTALLATION_ID}}
 
 
 jobs:
@@ -57,7 +60,7 @@ jobs:
       
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="repo=${{env.REPO}}"
+      run: terraform plan -input=false -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="repo=${{env.REPO}}" -var "cloud_build_github_pat=${{ secrets.CLOUD_BUILD_GITHUB_PAT }}" -var "secret_id=${{env.SECRET_ID}}" -var "installation_id=${{env.INSTALLATION_ID}}" -var "remote_uri=${{env.REMOTE_URI}}"
       working-directory: terraform
     
 
@@ -97,5 +100,5 @@ jobs:
       working-directory: terraform
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="repo=${{env.REPO}}"
+      run: terraform apply -auto-approve -input=false -var="project_id=${{env.PROJECT_ID}}" -var="region=${{env.REGION}}" -var="project_number=${{env.PROJECT_NUMBER}}" -var="service_account_id=${{env.SERVICE_ACCOUNT_EMAIL}}" -var="org_id=${{env.ORG_ID}}" -var="pool_id=${{env.POOL_ID}}" -var="repo=${{env.REPO}}" -var "cloud_build_github_pat=${{ secrets.CLOUD_BUILD_GITHUB_PAT }}" -var "secret_id=${{env.SECRET_ID}}" -var "installation_id=${{env.INSTALLATION_ID}}" -var "remote_uri=${{env.REMOTE_URI}}"
       working-directory: terraform
