@@ -24,18 +24,8 @@ resource "google_dataform_repository" "dataform_repository" {
   }
 }
 
-data "google_iam_policy" "dataform_sa" {
-  binding {
-    role    = "roles/bigquery.user"
-    members = ["serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"]
-  }
+resource "google_project_iam_member" "dataform_bigquery_job_user" {
+  project = var.project_id
+  role    = "roles/bigquery.jobUser"
+  member  = "serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"
 }
-
-resource "google_dataform_repository_iam_policy" "policy" {
-  provider    = google-beta
-  project     = google_dataform_repository.dataform_repository.project
-  region      = google_dataform_repository.dataform_repository.region
-  repository  = google_dataform_repository.dataform_repository.name
-  policy_data = data.google_iam_policy.dataform_sa.policy_data
-}
-
