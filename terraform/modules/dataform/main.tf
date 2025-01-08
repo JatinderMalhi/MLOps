@@ -8,7 +8,7 @@ data "google_iam_policy" "serviceagent_Accessor" {
 resource "google_secret_manager_secret_iam_policy" "dataform_policy" {
   project = var.project_id
   secret_id = var.secret_id
-  policy_data = data.google_iam_policy.serviceagent_secretAccessor.policy_data
+  policy_data = data.google_iam_policy.serviceagent_Accessor.policy_data
 }
 
 resource "google_dataform_repository" "dataform_repository" {
