@@ -1,16 +1,15 @@
-# resource "google_secret_manager_secret" "github_token_secret" {
-#   project   = var.project_id
-#   secret_id = var.secret_id
+data "google_iam_policy" "serviceagent_Accessor" {
+    binding {
+        role = "roles/secretmanager.secretAccessor"
+        members = ["serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"]
+    }
+}
 
-#   replication {
-#     auto {}
-#   }
-# }
-
-# resource "google_secret_manager_secret_version" "github_token_secret_version" {
-#   secret      = google_secret_manager_secret.github_token_secret.id
-#   secret_data = var.cloud_build_github_pat
-# }
+resource "google_secret_manager_secret_iam_policy" "dataform_policy" {
+  project = var.project_id
+  secret_id = var.secret_id
+  policy_data = data.google_iam_policy.serviceagent_secretAccessor.policy_data
+}
 
 resource "google_dataform_repository" "dataform_repository" {
   provider = google-beta
@@ -22,7 +21,6 @@ resource "google_dataform_repository" "dataform_repository" {
     url                                 = var.remote_uri
     default_branch                      = "main"
     authentication_token_secret_version = var.github_token_secret_version_id
-    # google_secret_manager_secret_version.github_token_secret_version.id
   }
 }
 

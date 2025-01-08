@@ -29,3 +29,7 @@ variable "remote_uri" {
 variable "github_token_secret_version_id" {
   description = "secret verion id"
 }
+
+variable "secret_id" {
+description = "github-token-secret"  
+}

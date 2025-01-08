@@ -39,4 +39,5 @@ module "datafrom_repository" {
   cloud_build_github_pat = var.cloud_build_github_pat
   remote_uri = var.remote_uri
   github_token_secret_version_id = module.cloudbuild.github_token_secret_version_id
+  secret_id = module.cloudbuild.github_token_secret
 }
