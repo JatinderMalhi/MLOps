@@ -3,13 +3,6 @@ data "google_iam_policy" "serviceagent_Accessor" {
         role = "roles/secretmanager.secretAccessor"
         members = ["serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"]
     }
-
-     binding {
-    role    = "roles/bigquery.jobUser"
-    members = [
-      "serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"
-    ]
-  }
 }
 
 resource "google_secret_manager_secret_iam_policy" "dataform_policy" {
