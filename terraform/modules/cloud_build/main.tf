@@ -46,3 +46,7 @@ resource "google_cloudbuildv2_repository" "github_repo" {
   parent_connection = google_cloudbuildv2_connection.github_connection.name
   remote_uri = var.remote_uri
 }
+
+output "github_token_secret_version_id" {
+  value = google_secret_manager_secret_version.github_token_secret_version.id
+}

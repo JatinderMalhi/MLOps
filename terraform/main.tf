@@ -37,6 +37,6 @@ module "datafrom_repository" {
   region = var.region
   project_number = var.project_number
   cloud_build_github_pat = var.cloud_build_github_pat
-  secret_id = var.secret_id
   remote_uri = var.remote_uri
+  github_token_secret_version_id = module.cloudbuild.github_token_secret_version_id
 }

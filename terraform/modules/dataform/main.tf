@@ -1,16 +1,16 @@
-resource "google_secret_manager_secret" "github_token_secret" {
-  project   = var.project_id
-  secret_id = var.secret_id
+# resource "google_secret_manager_secret" "github_token_secret" {
+#   project   = var.project_id
+#   secret_id = var.secret_id
 
-  replication {
-    auto {}
-  }
-}
+#   replication {
+#     auto {}
+#   }
+# }
 
-resource "google_secret_manager_secret_version" "github_token_secret_version" {
-  secret      = google_secret_manager_secret.github_token_secret.id
-  secret_data = var.cloud_build_github_pat
-}
+# resource "google_secret_manager_secret_version" "github_token_secret_version" {
+#   secret      = google_secret_manager_secret.github_token_secret.id
+#   secret_data = var.cloud_build_github_pat
+# }
 
 resource "google_dataform_repository" "dataform_repository" {
   provider = google-beta
@@ -21,7 +21,8 @@ resource "google_dataform_repository" "dataform_repository" {
   git_remote_settings {
     url                                 = var.remote_uri
     default_branch                      = "main"
-    authentication_token_secret_version = google_secret_manager_secret_version.github_token_secret_version.id
+    authentication_token_secret_version = var.github_token_secret_version_id
+    # google_secret_manager_secret_version.github_token_secret_version.id
   }
 }
 

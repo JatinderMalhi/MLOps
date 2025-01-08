@@ -18,14 +18,14 @@ variable "dataform_repository_name" {
   default = "mlops"
 }
 
-variable "secret_id" {
-description = "github-token-secret"  
-}
-
 variable "project_number" {
   description = "project number"
 }
 
 variable "remote_uri" {
   description = "github repository to link with cloud build"
+}
+
+variable "github_token_secret_version_id" {
+  description = "secret verion id"
 }
