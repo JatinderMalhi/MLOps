@@ -31,9 +31,9 @@ module "vertex_ai_workbench" {
   service_account_email = var.service_account_id
 }
 ########################################
-module "datafrom_repository" {
-  source = "./modules/dataform"
-  project_id = var.project_id
-  region = var.region
-  project_number = var.project_number
-}
+# module "datafrom_repository" {
+#   source = "./modules/dataform"
+#   project_id = var.project_id
+#   region = var.region
+#   project_number = var.project_number
+# }
