@@ -13,7 +13,8 @@ resource "google_secret_manager_secret_version" "github_token_secret_version" {
 }
 
 resource "google_dataform_repository" "dataform_repository" {
-  project = var.project_id
+  provider = google-beta
+  project  = var.project_id
   name     = var.dataform_repository_name
   region   = var.region
 
@@ -32,6 +33,7 @@ data "google_iam_policy" "dataform_sa" {
 }
 
 resource "google_dataform_repository_iam_policy" "policy" {
+  provider    = google-beta
   project     = google_dataform_repository.dataform_repository.project
   region      = google_dataform_repository.dataform_repository.region
   repository  = google_dataform_repository.dataform_repository.name
