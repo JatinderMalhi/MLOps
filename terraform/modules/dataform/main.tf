@@ -3,6 +3,11 @@ data "google_iam_policy" "serviceagent_Accessor" {
         role = "roles/secretmanager.secretAccessor"
         members = ["serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"]
     }
+
+    binding {
+    role    = "roles/bigquery.jobUser"
+    members = ["serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"]
+  }
 }
 
 resource "google_secret_manager_secret_iam_policy" "dataform_policy" {
@@ -24,8 +29,8 @@ resource "google_dataform_repository" "dataform_repository" {
   }
 }
 
-resource "google_project_iam_member" "dataform_bigquery_job_user" {
-  project = var.project_id
-  role    = "roles/bigquery.jobUser"
-  member  = "serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"
+resource "google_project_iam_policy" "dataform_project_policy" {
+  project     = var.project_id
+  policy_data = data.google_iam_policy.serviceagent_Accessor.policy_data
 }
+
