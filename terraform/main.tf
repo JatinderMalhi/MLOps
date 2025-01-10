@@ -29,6 +29,7 @@ module "vertex_ai_workbench" {
   source = "./modules/vetex_ai_workbench"
   project_id = var.project_id
   service_account_email = var.service_account_id
+  project_number = var.project_number
 }
 ###################################
 # module "datafrom_repository" {
