@@ -1,15 +1,23 @@
-resource "google_notebooks_instance" "mlops_instance" {
-  name         = var.instance_name
-  location     = var.region
-  project      = var.project_id
-  machine_type = "e2-standard-4"
+resource "google_workbench_instance" "mlops_instance" {
+  name     = var.instance_name
+  location = var.region
+  project  = var.project_id
 
-  vm_image {
-    project      = "deeplearning-platform-release"
-    image_family = "tf-latest-cpu"
+
+  gce_setup {
+    machine_type = "e2-standard-4"
+    service_accounts {
+      email = var.service_account_email
+    }
+    boot_disk {
+      disk_type = "PD_STANDARD"
+    }
+    data_disks {
+      disk_type = "PD_STANDARD"
+    }
+    metadata = {
+      terraform = "true"
+    }
   }
-  service_account = "${var.service_account_email}"
   desired_state = "ACTIVE"
 }
-
-
