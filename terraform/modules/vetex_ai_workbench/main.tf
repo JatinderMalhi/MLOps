@@ -8,5 +8,8 @@ resource "google_notebooks_instance" "mlops_instance" {
     project      = "deeplearning-platform-release"
     image_family = "tf-latest-cpu"
   }
+  service_account = "${var.service_account_email}"
   desired_state = "ACTIVE"
 }
+
+
