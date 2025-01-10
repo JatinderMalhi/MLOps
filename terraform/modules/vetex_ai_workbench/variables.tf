@@ -18,8 +18,3 @@ variable "instance_name" {
   type = string
   default = "mlops-project"
 }
-
-variable "project_number" {
-    description = "project id for the terraform"
-    type = string
-}
