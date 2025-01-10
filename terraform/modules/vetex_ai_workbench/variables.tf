@@ -16,5 +16,5 @@ variable "service_account_email" {
 variable "instance_name" {
   description = "name of the instance notebook"
   type = string
-  default = "mlops"
+  default = "mlops-project"
 }
