@@ -23,18 +23,18 @@ resource "google_workbench_instance" "instance" {
   desired_state = "ACTIVE"
 }
 
-# data "google_iam_policy" "instance_policy" {
-#   binding {
-#     role = "roles/compute.instances.get"
-#     members = [
-#       "serviceAccount:service-${var.project_number}@gcp-sa-notebooks.iam.gserviceaccount.com",
-#     ]
-#   }
-# }
+data "google_iam_policy" "instance_policy" {
+  binding {
+    role = "roles/compute.instances.get"
+    members = [
+      "serviceAccount:service-${var.project_number}@gcp-sa-notebooks.iam.gserviceaccount.com",
+    ]
+  }
+}
 
-# resource "google_workbench_instance_iam_policy" "policy" {
-#   project = google_workbench_instance.instance.project
-#   location = google_workbench_instance.instance.location
-#   name = google_workbench_instance.instance.name
-#   policy_data = data.google_iam_policy.instance_policy.policy_data
-# }
+resource "google_workbench_instance_iam_policy" "policy" {
+  project = google_workbench_instance.instance.project
+  location = google_workbench_instance.instance.location
+  name = google_workbench_instance.instance.name
+  policy_data = data.google_iam_policy.instance_policy.policy_data
+}
