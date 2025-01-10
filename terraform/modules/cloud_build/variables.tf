@@ -15,7 +15,7 @@ variable "cloud_build_github_pat" {
 variable "connection_name" {
   description = "The name for the GitHub Cloud Build connection"
   type = string
-  default = "github_mlops_connection"
+  default = "mlops_connection_github"
 }
 
 variable "installation_id" {
