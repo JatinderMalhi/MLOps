@@ -4,7 +4,7 @@ variable "project_id" {
 }
 
 variable "region" {
-  description = "instance zonal region"
+  description = "instance zonal"
   default = "us-central1-a"
 }
 
