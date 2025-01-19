@@ -31,6 +31,13 @@ module "vertex_ai_workbench" {
   service_account_email = var.service_account_id
 }
 ###################################
+module "big-query" {
+  source = "./modules/big_query"
+  project_id = var.project_id
+  region = var.region
+  
+}
+###################################
 # module "datafrom_repository" {
 #   source = "./modules/dataform"
 #   project_id = var.project_id
