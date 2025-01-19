@@ -6,9 +6,8 @@ resource "google_bigquery_dataset" "meta_forecasting_dataset" {
 
 resource "google_bigquery_table" "meta_forecasting_table" {
   project = var.project_id
-  location = var.region
   dataset_id = google_bigquery_dataset.meta_forecasting_dataset.dataset_id
-  table_id = "${var.table_prefix}meta_landing_zone"
+  table_id = "${var.table_prefix}meta_landing_data"
   time_partitioning {
     type = "DAY"
   }
@@ -43,7 +42,7 @@ resource "google_bigquery_table" "meta_forecasting_table" {
             "name": "volume",
             "type": "INTEGER",
             "mode": "NULLABLE"
-        },
+        }
     ] 
     EOF
 }
