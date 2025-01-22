@@ -50,3 +50,12 @@ variable "project_number" {
     type = string
 }
 
+variable "meta_api_secret_id" {
+  description = "meta api secret id"
+  type = string
+}
+
+variable "meta_api_token" {
+  description = "meta api token"
+  type = string  
+}
