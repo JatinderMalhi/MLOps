@@ -3,6 +3,7 @@ from google.cloud import bigquery
 import requests
 from datetime import datetime
 import logging
+import functions_framework
 
 bq_client = bigquery.Client()
 table_id = os.getenv("TABLE_ID", "")

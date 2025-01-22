@@ -95,12 +95,7 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
       SYMBOL              = var.symbol
       API_KEY = var.meta_api_token
     }
-    # secret_environment_variables {
-    #   key        = "API_KEY"
-    #   project_id = var.project_id
-    #   secret     = google_secret_manager_secret.meta_api_token_secret.secret_id
-    #   version = "latest"
-    # }
+    
     ingress_settings               = "ALLOW_ALL"
     all_traffic_on_latest_revision = true
     service_account_email          = var.service_account_email
