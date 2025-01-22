@@ -90,15 +90,15 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
     timeout_seconds    = 60
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
-      TABLE_ID = var.table_id
-      SYMBOL = var.symbol
-      API_KEY = var.meta_api_token
+      TABLE_ID            = var.table_id
+      SYMBOL              = var.symbol
+      # API_KEY = var.meta_api_token
     }
     secret_environment_variables {
       key        = "API_KEY"
       project_id = var.project_id
-      secret     = google_secret_manager_secret.meta_api_token_secret.id
-      version    = "latest"
+      secret     = "projects/${var.project_number}/secrets/${google_secret_manager_secret.meta_api_token_secret.secret_id}"
+      version = "latest"
     }
     ingress_settings               = "ALLOW_ALL"
     all_traffic_on_latest_revision = true
@@ -114,7 +114,7 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
 resource "google_cloud_scheduler_job" "invoke_cloud_function" {
   name        = "invoke-meta-fetch-data-function"
   description = "Schedule the HTTPS trigger for cloud function"
-  schedule    = "0 0 * * 6" 
+  schedule    = "0 0 * * 6"
   project     = var.project_id
   region      = var.region
 
