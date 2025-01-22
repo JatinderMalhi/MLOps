@@ -17,18 +17,18 @@ resource "google_secret_manager_secret_version" "meta_api_secret_version" {
   secret_data = var.meta_api_token
 }
 
-data "google_iam_policy" "meta_cloudfunction_serviceagent_secretAccessor" {
-    binding {
-        role = "roles/secretmanager.secretAccessor"
-        members = ["service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"]
-    }
-}
+# data "google_iam_policy" "meta_cloudfunction_serviceagent_secretAccessor" {
+#     binding {
+#         role = "roles/secretmanager.secretAccessor"
+#         members = ["service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"]
+#     }
+# }
 
-resource "google_secret_manager_secret_iam_policy" "meta_cloudfunction_policy" {
-  project = google_secret_manager_secret.meta_api_token_secret.project
-  secret_id = google_secret_manager_secret.meta_api_token_secret.secret_id
-  policy_data = data.google_iam_policy.meta_cloudfunction_serviceagent_secretAccessor.policy_data
-}
+# resource "google_secret_manager_secret_iam_policy" "meta_cloudfunction_policy" {
+#   project = google_secret_manager_secret.meta_api_token_secret.project
+#   secret_id = google_secret_manager_secret.meta_api_token_secret.secret_id
+#   policy_data = data.google_iam_policy.meta_cloudfunction_serviceagent_secretAccessor.policy_data
+# }
 
 resource "google_project_iam_member" "cloud_run_service_agent_token_creator" {
   project = var.project_id
