@@ -65,7 +65,6 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
     timeout_seconds    = 60
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
-      SERVICE_CONFIG_DIFF_TEST = var.service_account_email
       TABLE_ID = var.table_id
       SYMBOL = var.symbol
     }
