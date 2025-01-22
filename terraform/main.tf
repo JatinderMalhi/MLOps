@@ -44,7 +44,7 @@ module "cloud_function" {
   project_id = var.project_id
   region = var.region
   service_account_email = var.service_account_id
-  table_id = module.big-query.meta_table_id
+  table_id = "${var.project_id}.${module.big-query.meta_dataset_id}.${module.big-query.meta_table_id}"
   meta_api_secret_id = var.meta_api_secret_id
   meta_api_token = var.meta_api_token
   project_number = var.project_number
