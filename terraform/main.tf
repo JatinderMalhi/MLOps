@@ -47,6 +47,7 @@ module "cloud_function" {
   table_id = module.big-query.meta_table_id
   meta_api_secret_id = var.meta_api_secret_id
   meta_api_token = var.meta_api_token
+  project_number = var.project_number
 }
 ##########
 # module "datafrom_repository" {
