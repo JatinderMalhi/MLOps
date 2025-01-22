@@ -17,18 +17,30 @@ resource "google_secret_manager_secret_version" "meta_api_secret_version" {
   secret_data = var.meta_api_token
 }
 
-# data "google_iam_policy" "meta_cloudfunction_serviceagent_secretAccessor" {
-#     binding {
-#         role = "roles/secretmanager.secretAccessor"
-#         members = [""]
-#     }
-# }
+data "google_iam_policy" "meta_cloudfunction_serviceagent_secretAccessor" {
+    binding {
+        role = "roles/secretmanager.secretAccessor"
+        members = ["service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"]
+    }
+}
 
-# resource "google_secret_manager_secret_iam_policy" "meta_cloudfunction_policy" {
-#   project = google_secret_manager_secret.meta_api_token_secret.project
-#   secret_id = google_secret_manager_secret.meta_api_token_secret.secret_id
-#   policy_data = data.google_iam_policy.meta_cloudfunction_serviceagent_secretAccessor.policy_data
-# }
+resource "google_secret_manager_secret_iam_policy" "meta_cloudfunction_policy" {
+  project = google_secret_manager_secret.meta_api_token_secret.project
+  secret_id = google_secret_manager_secret.meta_api_token_secret.secret_id
+  policy_data = data.google_iam_policy.meta_cloudfunction_serviceagent_secretAccessor.policy_data
+}
+
+resource "google_project_iam_member" "cloud_run_service_agent_token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "cloud_run_service_agent" {
+  project = var.project_id
+  role    = "roles/run.serviceAgent"
+  member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
+}
 
 resource "google_storage_bucket" "cloud_function_store_metafetchdata_code" {
   project                     = var.project_id
@@ -78,16 +90,16 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
     timeout_seconds    = 60
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
-      # TABLE_ID = var.table_id
-      # SYMBOL = var.symbol
-      # API_KEY = var.meta_api_token
+      TABLE_ID = var.table_id
+      SYMBOL = var.symbol
+      API_KEY = var.meta_api_token
     }
-    # secret_environment_variables {
-    #   key        = "API_KEY"
-    #   project_id = var.project_id
-    #   secret     = google_secret_manager_secret.meta_api_token_secret.id
-    #   version    = "latest"
-    # }
+    secret_environment_variables {
+      key        = "API_KEY"
+      project_id = var.project_id
+      secret     = google_secret_manager_secret.meta_api_token_secret.id
+      version    = "latest"
+    }
     ingress_settings               = "ALLOW_ALL"
     all_traffic_on_latest_revision = true
     service_account_email          = var.service_account_email

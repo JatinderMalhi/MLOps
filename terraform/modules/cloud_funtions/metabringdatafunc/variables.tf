@@ -39,3 +39,7 @@ variable "symbol" {
   type = string
   default = "META"
 }
+
+variable "project_number" {
+  description = "project number"
+}
