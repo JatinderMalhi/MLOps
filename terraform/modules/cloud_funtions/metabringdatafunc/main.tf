@@ -15,6 +15,7 @@ resource "google_secret_manager_secret" "meta_api_token_secret" {
 resource "google_secret_manager_secret_version" "meta_api_secret_version" {
   secret      = google_secret_manager_secret.meta_api_token_secret.id
   secret_data = var.meta_api_token
+  enabled = true
 }
 
 # data "google_iam_policy" "meta_cloudfunction_serviceagent_secretAccessor" {
@@ -92,14 +93,14 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
       SERVICE_CONFIG_TEST = "config_test"
       TABLE_ID            = var.table_id
       SYMBOL              = var.symbol
-      # API_KEY = var.meta_api_token
+      API_KEY = var.meta_api_token
     }
-    secret_environment_variables {
-      key        = "API_KEY"
-      project_id = var.project_id
-      secret     = "projects/${var.project_number}/secrets/${google_secret_manager_secret.meta_api_token_secret.secret_id}"
-      version = "latest"
-    }
+    # secret_environment_variables {
+    #   key        = "API_KEY"
+    #   project_id = var.project_id
+    #   secret     = google_secret_manager_secret.meta_api_token_secret.secret_id
+    #   version = "latest"
+    # }
     ingress_settings               = "ALLOW_ALL"
     all_traffic_on_latest_revision = true
     service_account_email          = var.service_account_email
