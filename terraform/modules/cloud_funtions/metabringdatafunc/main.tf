@@ -102,7 +102,7 @@ resource "google_cloud_scheduler_job" "invoke_cloud_function" {
   region      = var.region
 
   http_target {
-    uri         = google_cloudfunctions2_function.func_trigger_bucket_to_bigquery.service_config[0].uri
+    uri         = google_cloudfunctions2_function.func_trigger_bucket_to_bigquery.url
     http_method = "POST"
     oidc_token {
       service_account_email = var.service_account_email
