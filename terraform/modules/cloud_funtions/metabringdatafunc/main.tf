@@ -90,7 +90,6 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
 
   depends_on = [
     google_storage_bucket_object.zip,
-    google_secret_manager_secret_version.meta_api_secret_version
   ]
 }
 
