@@ -4,31 +4,31 @@ data "archive_file" "source" {
   output_path = "${path.module}/src/alert_source.zip"
 }
 
-resource "google_secret_manager_secret" "meta_api_token_secret" {
-  project   = var.project_id
-  secret_id = var.meta_api_secret_id
-  replication {
-    auto {}
-  }
-}
+# resource "google_secret_manager_secret" "meta_api_token_secret" {
+#   project   = var.project_id
+#   secret_id = var.meta_api_secret_id
+#   replication {
+#     auto {}
+#   }
+# }
 
-resource "google_secret_manager_secret_version" "meta_api_secret_version" {
-  secret      = google_secret_manager_secret.meta_api_token_secret.id
-  secret_data = var.meta_api_token
-  enabled = true
-}
+# resource "google_secret_manager_secret_version" "meta_api_secret_version" {
+#   secret      = google_secret_manager_secret.meta_api_token_secret.id
+#   secret_data = var.meta_api_token
+#   enabled = true
+# }
 
-resource "google_project_iam_member" "cloud_run_service_agent_token_creator" {
-  project = var.project_id
-  role    = "roles/iam.serviceAccountTokenCreator"
-  member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
-}
+# resource "google_project_iam_member" "cloud_run_service_agent_token_creator" {
+#   project = var.project_id
+#   role    = "roles/iam.serviceAccountTokenCreator"
+#   member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
+# }
 
-resource "google_project_iam_member" "cloud_run_service_agent" {
-  project = var.project_id
-  role    = "roles/run.serviceAgent"
-  member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
-}
+# resource "google_project_iam_member" "cloud_run_service_agent" {
+#   project = var.project_id
+#   role    = "roles/run.serviceAgent"
+#   member  = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
+# }
 
 resource "google_storage_bucket" "cloud_function_store_metafetchdata_code" {
   project                     = var.project_id
@@ -80,7 +80,7 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
       SERVICE_CONFIG_TEST = "config_test"
       TABLE_ID            = var.table_id
       SYMBOL              = var.symbol
-      API_KEY = var.meta_api_token
+      API_KEY             = var.meta_api_token
     }
 
     ingress_settings               = "ALLOW_ALL"

@@ -45,6 +45,8 @@ resource "google_bigquery_table" "meta_forecasting_table" {
         }
     ] 
     EOF
+
+    depends_on = [ google_bigquery_dataset.meta_forecasting_dataset ]
 }
 
 resource "google_bigquery_table" "meta_forecasting_table_train" {
@@ -101,4 +103,5 @@ resource "google_bigquery_table" "meta_forecasting_table_train" {
     ] 
     EOF
   
+    depends_on = [ google_bigquery_dataset.meta_forecasting_dataset ]
 }

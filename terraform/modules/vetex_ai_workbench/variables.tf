@@ -3,7 +3,7 @@ variable "project_id" {
   type = string
 }
 
-variable "region" {
+variable "region_zone" {
   description = "instance zonal region"
   default = "us-central1-a"
 }

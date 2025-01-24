@@ -1,6 +1,6 @@
 resource "google_workbench_instance" "mlops_instance" {
   name     = var.instance_name
-  location = var.region
+  location = var.region_zone
   project  = var.project_id
 
 
