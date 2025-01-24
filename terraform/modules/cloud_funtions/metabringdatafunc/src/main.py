@@ -54,7 +54,7 @@ def fetch_new_data(symbol):
     try:
         last_fetched = get_last_fetched_timestamp()
         if last_fetched:
-            start_time = last_fetched
+            start_time = last_fetched.isoformat()
         else:
             return 
         logging.info("Fetching new data starting from: %s", start_time)
@@ -71,7 +71,9 @@ def fetch_new_data(symbol):
 
             rows_to_insert = []
             for timestamp, values in time_series.items():
-                timestamp_dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+                timestamp_dt = datetime.strptime(
+                    timestamp, "%Y-%m-%d %H:%M:%S"
+                ).isoformat()
 
                 if timestamp_dt > start_time:
                     rows_to_insert.append(

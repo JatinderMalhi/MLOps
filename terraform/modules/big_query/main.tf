@@ -11,6 +11,8 @@ resource "google_bigquery_table" "meta_forecasting_table" {
   time_partitioning {
     type = "DAY"
   }
+  deletion_protection = false
+   
   schema = <<EOF
     [
         {
