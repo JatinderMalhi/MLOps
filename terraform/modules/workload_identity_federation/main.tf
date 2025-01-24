@@ -1,6 +1,6 @@
 resource "google_iam_workload_identity_pool" "pool" {
   workload_identity_pool_id = var.pool_id
-  display_name = "ml-ops"
+  display_name = "mlops"
 }
 
 resource "google_iam_workload_identity_pool_provider" "mlops" {
