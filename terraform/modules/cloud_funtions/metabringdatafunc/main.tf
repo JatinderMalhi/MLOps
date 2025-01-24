@@ -51,7 +51,7 @@ resource "google_storage_bucket_object" "zip" {
     data.archive_file.source
   ]
 }
-
+######
 resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
   project     = var.project_id
   location    = var.region
