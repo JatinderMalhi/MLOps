@@ -100,9 +100,11 @@ def fetch_new_data(symbol):
         logging.error("Error fetching and storing data: %s", e, exc_info=True)
         raise
 
-@functions_framework.cloud_event
-def fetch_and_store_data(cloud_event):
+@functions_framework.http
+def fetch_and_store_data(request):
     try:
+        request_json = request.get_json(silent=True)
+        logging.info("Request received: %s", request_json)
         logging.info("Cloud Function triggered. Fetching data for symbol: %s", symbol)
         fetch_new_data(symbol)
         logging.info("Fetch and store process completed successfully.")
