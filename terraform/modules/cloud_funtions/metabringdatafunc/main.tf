@@ -76,7 +76,8 @@ resource "google_cloud_scheduler_job" "invoke_cloud_function" {
 
   http_target {
     uri         = google_cloudfunctions2_function.func_trigger_bucket_to_bigquery.url
-    http_method = "POST"
+    http_method = "GET"
+  
     oidc_token {
       service_account_email = var.service_account_email
     }
