@@ -59,13 +59,23 @@ resource "google_bigquery_table" "meta_forecasting_table_train" {
   schema = <<EOF
     [
         {
-            "name": "id",
-            "type": "STRING",
+            "name": "timestamp",
+            "type": "TIMESTAMP",
             "mode": "NULLABLE"
         },
         {
-            "name": "timestamp",
-            "type": "TIMESTAMP",
+            "name": "open",
+            "type": "FLOAT",
+            "mode": "NULLABLE"
+        },
+        {
+            "name": "high",
+            "type": "FLOAT",
+            "mode": "NULLABLE"
+        },
+        {
+            "name": "low",
+            "type": "FLOAT",
             "mode": "NULLABLE"
         },
         {
@@ -74,8 +84,23 @@ resource "google_bigquery_table" "meta_forecasting_table_train" {
             "mode": "NULLABLE"
         },
         {
+            "name": "volume",
+            "type": "INTEGER",
+            "mode": "NULLABLE"
+        },
+        {
             "name": "split",
             "type": "STRING",
+            "mode": "NULLABLE"
+        },
+        {
+            "name": "market_trend",
+            "type": "STRING",
+            "mode": "NULLABLE"
+        },
+        {
+            "name": "average_price",
+            "type": "FLOAT",
             "mode": "NULLABLE"
         }
     ] 
