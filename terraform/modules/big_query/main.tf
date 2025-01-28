@@ -55,26 +55,17 @@ resource "google_bigquery_table" "meta_forecasting_table_train" {
   project = var.project_id
   dataset_id = google_bigquery_dataset.meta_forecasting_dataset.dataset_id
   table_id = "${var.table_prefix}_meta_forecasting_train"
+  deletion_protection = false
   schema = <<EOF
     [
         {
+            "name": "id",
+            "type": "STRING",
+            "mode": "NULLABLE"
+        },
+        {
             "name": "timestamp",
             "type": "TIMESTAMP",
-            "mode": "NULLABLE"
-        },
-        {
-            "name": "open",
-            "type": "FLOAT",
-            "mode": "NULLABLE"
-        },
-        {
-            "name": "high",
-            "type": "FLOAT",
-            "mode": "NULLABLE"
-        },
-        {
-            "name": "low",
-            "type": "FLOAT",
             "mode": "NULLABLE"
         },
         {
@@ -83,23 +74,8 @@ resource "google_bigquery_table" "meta_forecasting_table_train" {
             "mode": "NULLABLE"
         },
         {
-            "name": "volume",
-            "type": "INTEGER",
-            "mode": "NULLABLE"
-        },
-        {
             "name": "split",
             "type": "STRING",
-            "mode": "NULLABLE"
-        },
-        {
-            "name": "market_trend",
-            "type": "STRING",
-            "mode": "NULLABLE"
-        },
-        {
-            "name": "average_price",
-            "type": "FLOAT",
             "mode": "NULLABLE"
         }
     ] 
