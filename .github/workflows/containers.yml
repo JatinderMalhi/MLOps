@@ -1,0 +1,47 @@
+name: Build Containers
+
+on:
+  push:
+    paths:
+      - 'pipelines/meta_forecasting_pipeline/**'
+  workflow_dispatch:
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+env:
+  PROJECT_ID: ${{vars.PROJECT_ID}}
+  SERVICE_ACCOUNT: ${{vars.SERVICE_ACCOUNT_EMAIL}}
+  REGION: ${{vars.REGION}}
+  DOCKER_REPO: ${{vars.DOCKER_REPO}}
+  CLOUDBUILD_LOGS: gs://${{vars.PROJECT_ID}}_cloudbuild/logs
+  WORKLOAD_PROVIDER: ${{vars.WORKLOAD_PROVIDER}}
+  DATASET_ID: ${{vars.META_DATASET_ID}}
+  TABLE_ID: ${{vars.META_TRAIN_TABLE_ID}}
+  BUCKET_URI: ${{vars.META_PIPELINE_BUCKET_URI}}
+  LOCATION: ${{vars.REGION}}
+
+jobs:
+  build-container-meta-forecasting-bqml:
+    name: 'Build meta forecasting container for BigQuery ML'
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - id: auth
+      uses: google-github-actions/auth@v2.0.0  
+      with:
+        workload_identity_provider: ${{env.WORKLOAD_PROVIDER}}
+        service_account: ${{env.SERVICE_ACCOUNT}}
+        create_credentials_file: true
+
+    - name: 'Build container'
+      run: |
+          gcloud builds submit pipelines/meta_forecasting_pipeline/ \
+            --gcs-log-dir=${{env.CLOUDBUILD_LOGS}} \
+            --project ${{env.PROJECT_ID}} \
+            --region ${{env.REGION}} \
+            --tag ${{env.DOCKER_REPO}}/bqml:latest \
+            --timeout=15m --machine-type=e2-highcpu-8 --suppress-logs

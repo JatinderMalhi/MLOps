@@ -17,4 +17,4 @@ COPY src/ .
 ENV PYTHONPATH=/app
 
 # Command to run your application (optional, modify as needed)
-# CMD ["python", "pipeline.py", "--compile-only"]
+CMD ["python", "pipeline.py", "--compile-only"]
