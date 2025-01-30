@@ -1,0 +1,47 @@
+name: Run Vertex AI Pipeline
+on:
+    push:
+        branches: [ "main" ]
+        paths:
+            - 'pipelines/meta_forecasting_pipeline/src/**'
+    workflow_dispatch:
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+env:
+  PROJECT_ID: ${{ vars.PROJECT_ID }}
+  SERVICE_ACCOUNT: ${{ vars.SERVICE_ACCOUNT_EMAIL }}
+  REGION: ${{ vars.REGION }}
+  DOCKER_REPO: ${{vars.DOCKER_REPO}}
+  WORKLOAD_PROVIDER: ${{ vars.WORKLOAD_PROVIDER }}
+  DATASET_ID: ${{ vars.DATASET_ID }}
+  TABLE_ID: ${{ vars.TABLE_ID }}
+  BUCKET_URI: ${{ vars.BUCKET_URI }}
+  LOCATION: ${{ vars.REGION }}
+
+jobs:
+  run-pipeline:
+    name: 'Run Vertex AI Pipeline'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2.0.0  
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          create_credentials_file: true
+
+      - name: 'Deploy and Run Vertex AI Pipeline'
+        run: |
+          gcloud builds submit \
+            --config build/meta-forecasting-pipeline-run.yml \
+            --project ${{ env.PROJECT_ID }} \
+            --region ${{ env.REGION }} \
+            --substitutions _REGION=${{ env.REGION }},_DATASET_ID=${{ env.DATASET_ID }},_SERVICE_ACCOUNT_EMAIL=${{ env.SERVICE_ACCOUNT }},_TABLE_ID=${{ env.TABLE_ID }},_BUCKET_URI=${{ env.BUCKET_URI }} \
+            --machine-type=e2-highcpu-8 \
+            --suppress-logs

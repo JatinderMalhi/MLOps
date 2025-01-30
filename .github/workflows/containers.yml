@@ -2,6 +2,7 @@ name: Build Containers
 
 on:
   push:
+    branches: [ "main" ]
     paths:
       - 'pipelines/meta_forecasting_pipeline/**'
   workflow_dispatch:

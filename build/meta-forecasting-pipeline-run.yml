@@ -1,0 +1,44 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Current Directory: $(pwd)"
+        echo "Listing Files:"
+        ls -R /workspace
+
+  - name: 'python:3.10.16'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Installing Python Packages..."
+        echo "Python Executable Location:"
+        which python
+        echo "Pip Executable Location:"
+        which pip
+        pip install --upgrade pip
+        pip install -r /workspace/pipelines/meta_forecasting_pipeline/requirements.txt
+        echo "Installed Packages:"
+        pip freeze
+        python /workspace/pipelines/meta_forecasting_pipeline/src/pipeline.py --compile-only
+    id: 'Install and run pipeline'
+    env:
+      - PROJECT_ID=${PROJECT_ID}             
+      - LOCATION=${_REGION}                  
+      - SERVICE_ACCOUNT_EMAIL=${_SERVICE_ACCOUNT_EMAIL}  
+      - DATASET_ID=${_DATASET_ID}           
+      - TABLE_ID=${_TABLE_ID}                  
+      - BUCKET_URI=${_BUCKET_URI}
+
+
+substitutions:
+  _REGION: ${_REGION}
+  _DATASET_ID: ${_DATASET_ID}
+  _SERVICE_ACCOUNT_EMAIL: ${_SERVICE_ACCOUNT_EMAIL}
+  _TABLE_ID: ${_TABLE_ID}
+  _BUCKET_URI: ${_BUCKET_URI}
+
+options:
+  machineType: 'E2_HIGHCPU_8'                
