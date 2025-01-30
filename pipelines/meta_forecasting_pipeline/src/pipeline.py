@@ -194,6 +194,7 @@ def pipeline(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--compile-only", action="store_true")
+    parser.add_argument("--output", type=str, help="Path to save the compiled pipeline spec")
     args = parser.parse_args()
     TRAIN_DISPLAY_NAME = "training_meta_stock_prediction_model"
     pipeline_json_path = "data_pipeline.json"
@@ -201,7 +202,7 @@ if __name__ == "__main__":
     compiler.Compiler().compile(pipeline_func=pipeline, package_path=pipeline_json_path)
     logging.info("Uploading compiled pipeline to GCS")
     gcs_client = storage.Client()
-    #bucket to store the pipeline json
+    # bucket to store the pipeline json
     # bucket = gcs_client.bucket(BUCKET_URI.replace("gs://", ""))
     # blob = bucket.blob(f"compile_file_meta_training_model/{pipeline_json_path}")
     # blob.upload_from_filename(pipeline_json_path)
