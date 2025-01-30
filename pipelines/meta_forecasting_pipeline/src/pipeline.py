@@ -203,18 +203,18 @@ if __name__ == "__main__":
     logging.info("Uploading compiled pipeline to GCS")
     gcs_client = storage.Client()
     # bucket to store the pipeline json
-    # bucket = gcs_client.bucket(BUCKET_URI.replace("gs://", ""))
-    # blob = bucket.blob(f"compile_file_meta_training_model/{pipeline_json_path}")
-    # blob.upload_from_filename(pipeline_json_path)
-    # logging.info(f"Uploaded {pipeline_json_path} to {blob.public_url}")
+    bucket = gcs_client.bucket(BUCKET_URI.replace("gs://", ""))
+    blob = bucket.blob(f"compile_file_meta_training_model/{pipeline_json_path}")
+    blob.upload_from_filename(pipeline_json_path)
+    logging.info(f"Uploaded {pipeline_json_path} to {blob.public_url}")
 
     if not args.compile_only:
         logging.info("Initializing Vertex AI and running the pipeline job")
         aiplatform.init(project=PROJECT_ID, location=LOCATION)
         job = aiplatform.PipelineJob(
             display_name=TRAIN_DISPLAY_NAME,
-            # template_path=f"{BUCKET_URI}/compile_file_meta_training_model/{pipeline_json_path}",
-            template_path=pipeline_json_path,
+            template_path=f"{BUCKET_URI}/compile_file_meta_training_model/{pipeline_json_path}",
+            # template_path=pipeline_json_path,
             pipeline_root=os.path.join(BUCKET_URI, TRAIN_DISPLAY_NAME),
             enable_caching=False,
         )
