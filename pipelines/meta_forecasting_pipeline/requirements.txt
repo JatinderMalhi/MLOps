@@ -1,6 +1,7 @@
 google-cloud-bigquery
 google-cloud-storage
 google-cloud-aiplatform
+google-cloud-pipeline-components
 pandas
 kfp
 pyarrow
