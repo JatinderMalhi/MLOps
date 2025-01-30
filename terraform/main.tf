@@ -49,6 +49,12 @@ module "cloud_function" {
   meta_api_token = var.meta_api_token
   project_number = var.project_number
 }
+######
+module "gcs" {
+  source = "./modules/gcs"
+  project_id = var.project_id
+  region = var.region
+}
 # ##########
 # # module "datafrom_repository" {
 # #   source = "./modules/dataform"
