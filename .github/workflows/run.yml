@@ -16,9 +16,9 @@ env:
   REGION: ${{ vars.REGION }}
   DOCKER_REPO: ${{vars.DOCKER_REPO}}
   WORKLOAD_PROVIDER: ${{ vars.WORKLOAD_PROVIDER }}
-  DATASET_ID: ${{ vars.DATASET_ID }}
-  TABLE_ID: ${{ vars.TABLE_ID }}
-  BUCKET_URI: ${{ vars.BUCKET_URI }}
+  DATASET_ID: ${{ vars.META_DATASET_ID }}
+  TABLE_ID: ${{ vars.META_TRAIN_TABLE_ID }}
+  BUCKET_URI: ${{ vars.META_PIPELINE_BUCKET_URI }}
   LOCATION: ${{ vars.REGION }}
 
 jobs:
