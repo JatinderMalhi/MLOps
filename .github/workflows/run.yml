@@ -36,23 +36,14 @@ jobs:
           service_account: ${{ env.SERVICE_ACCOUNT }}
           create_credentials_file: true
       
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10.16' 
-
-      - name: Install dependencies
+      - name: 'Deploy and Run Vertex AI Pipeline'
         run: |
-          pip install --upgrade pip
-          pip install -r pipelines/meta_forecasting_pipeline/requirements.txt
-
-      - name: Compile pipeline
-        run: |
-          python pipelines/meta_forecasting_pipeline/src/pipeline.py --compile-only --output data_pipeline.json
-
-      - name: Upload pipeline spec to GCS
-        run: |
-          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-          gsutil cp data_pipeline.json ${{ env.BUCKET_URI }}/compile_file_meta_training_model/pipeline.json
+          gcloud builds submit \
+            --config build/meta-forecasting-pipeline-run.yml \
+            --project ${{ env.PROJECT_ID }} \
+            --region ${{ env.REGION }} \
+            --substitutions _REGION=${{ env.REGION }},_DATASET_ID=${{ env.DATASET_ID }},_SERVICE_ACCOUNT_EMAIL=${{ env.SERVICE_ACCOUNT }},_TABLE_ID=${{ env.TABLE_ID }},_BUCKET_URI=${{ env.BUCKET_URI }} \
+            --machine-type=e2-highcpu-8 \
+            --suppress-logs
    
   
