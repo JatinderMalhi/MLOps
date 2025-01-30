@@ -42,7 +42,7 @@ jobs:
             --config build/meta-forecasting-pipeline-run.yml \
             --project ${{ env.PROJECT_ID }} \
             --region ${{ env.REGION }} \
-            --substitutions _REGION=${{ env.REGION }},_DATASET_ID=${{ env.DATASET_ID }},_SERVICE_ACCOUNT_EMAIL=${{ env.SERVICE_ACCOUNT }},_TABLE_ID=${{ env.TABLE_ID }},_BUCKET_URI=${{ env.BUCKET_URI }} \
+            --substitutions "_REGION=${{ env.REGION }},_DATASET_ID=${{ env.DATASET_ID }},_SERVICE_ACCOUNT_EMAIL=${{ env.SERVICE_ACCOUNT }},_TABLE_ID=${{ env.TABLE_ID }},_BUCKET_URI=${{ env.BUCKET_URI }}" \
             --machine-type=e2-highcpu-8 \
             --suppress-logs
    
