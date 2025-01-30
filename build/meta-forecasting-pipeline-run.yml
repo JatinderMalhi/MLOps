@@ -33,12 +33,12 @@ steps:
       - BUCKET_URI=${_BUCKET_URI}
 
 
-# substitutions:
-#   _REGION: ${_REGION}
-#   _DATASET_ID: ${_DATASET_ID}
-#   _SERVICE_ACCOUNT_EMAIL: ${_SERVICE_ACCOUNT_EMAIL}
-#   _TABLE_ID: ${_TABLE_ID}
-#   _BUCKET_URI: ${_BUCKET_URI}
+substitutions:
+  _REGION: ''
+  _DATASET_ID: ''
+  _SERVICE_ACCOUNT_EMAIL: ''
+  _TABLE_ID: ''
+  _BUCKET_URI: ''
 
 options:
   machineType: 'E2_HIGHCPU_8'
