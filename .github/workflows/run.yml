@@ -52,6 +52,7 @@ jobs:
 
       - name: Upload pipeline spec to GCS
         run: |
+          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
           gsutil cp data_pipeline.json ${{ env.BUCKET_URI }}/compile_file_meta_training_model/pipeline.json
    
   
