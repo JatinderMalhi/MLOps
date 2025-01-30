@@ -201,6 +201,7 @@ if __name__ == "__main__":
     compiler.Compiler().compile(pipeline_func=pipeline, package_path=pipeline_json_path)
     logging.info("Uploading compiled pipeline to GCS")
     gcs_client = storage.Client()
+    #bucket to store the pipeline json
     bucket = gcs_client.bucket(BUCKET_URI.replace("gs://", ""))
     blob = bucket.blob(f"compile_file_meta_training_model/{pipeline_json_path}")
     blob.upload_from_filename(pipeline_json_path)
