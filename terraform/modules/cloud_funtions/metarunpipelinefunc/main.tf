@@ -26,10 +26,10 @@ resource "google_storage_bucket_object" "meta_pipeline_zip" {
   ]
 }
 
-resource "google_cloudfunctions2_function" "function_trigger_meta_model_training_pipeline" {
+resource "google_cloudfunctions2_function" "function_trigger_meta_training_pipeline" {
   project     = var.project_id
   location    = var.region
-  name        = "run_meta_model_training_pipeline"
+  name        = "run_meta_training_pipeline"
   description = <<EOF
     This function schedule to run weekly. Run the model training pipeline.
     EOF
@@ -67,12 +67,12 @@ resource "google_cloudfunctions2_function" "function_trigger_meta_model_training
 
 }
 
-resource "google_cloud_scheduler_job" "invoke_meta_model_training_function" {
+resource "google_cloud_scheduler_job" "invoke_meta_training_function" {
   project     = var.project_id
-  name        = "invoke_meta_model_training_function"
-  schedule    = "0 12 * * SUN"
+  name        = "invoke-meta-model-training-function"
+  schedule    = "0 12 * * 6"
   description = "Schedule to run the meta model training pipeline weekly"
-  time_zone   = "UTC"
+  region = var.region
   http_target {
     uri         = google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline.url
     http_method = "GET"
