@@ -47,7 +47,7 @@ resource "google_cloudfunctions2_function" "function_trigger_meta_model_training
   service_config {
     max_instance_count = 3
     min_instance_count = 1
-    available_memory   = "256M"
+    available_memory   = "512M"
     timeout_seconds    = 60
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
@@ -73,7 +73,8 @@ resource "google_cloud_scheduler_job" "invoke_meta_model_training_function" {
   description = "Schedule to run the meta model training pipeline weekly"
   time_zone   = "UTC"
   http_target {
-    uri         = google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline.url
+    # uri         = google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline.url
+    uri         = google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline.service_config[0].uri
     http_method = "GET"
     oidc_token {
       service_account_email = var.service_account_email
