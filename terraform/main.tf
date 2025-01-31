@@ -51,11 +51,11 @@ module "cloud_function" {
 }
 # ######
 module "cloud_function_meta_pipeline" {
-  source = "./modules/cloud_funtions/metapipelinefunc"
+  source = "./modules/cloud_funtions/metarunpipelinefunc"
   project_id = var.project_id
   region = var.region
   service_account_email = var.service_account_id
-  bucket_uri = var.meta_compiled_pipeline_bucket_uri
+  meta_pipeline_bucket_uri = var.meta_compiled_pipeline_bucket_uri
 }
 ######
 module "gcs" {
