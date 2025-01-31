@@ -59,3 +59,9 @@ variable "meta_api_token" {
   description = "meta api token"
   type = string  
 }
+
+variable "meta_compiled_pipeline_bucket_uri" {
+  description = "meta pipeline bucket uri stored compiled piepline code"
+  type = string
+  
+}

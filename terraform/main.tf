@@ -49,6 +49,14 @@ module "cloud_function" {
   meta_api_token = var.meta_api_token
   project_number = var.project_number
 }
+# ######
+module "cloud_function_meta_pipeline" {
+  source = "./modules/cloud_funtions/metapipelinefunc"
+  project_id = var.project_id
+  region = var.region
+  service_account_email = var.service_account_id
+  bucket_uri = var.meta_compiled_pipeline_bucket_uri
+}
 ######
 module "gcs" {
   source = "./modules/gcs"
