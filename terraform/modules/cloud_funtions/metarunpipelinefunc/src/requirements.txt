@@ -1,4 +1,6 @@
 functions-framework==3.*
 google-cloud-bigquery
 google-cloud-storage
+google-cloud-aiplatform[pipelines]
 google-cloud-aiplatform
+PyYAML
