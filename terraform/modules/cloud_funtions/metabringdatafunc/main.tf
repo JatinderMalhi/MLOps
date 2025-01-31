@@ -57,7 +57,7 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
       API_KEY             = var.meta_api_token
     }
 
-    ingress_settings               = "ALLOW_INTERNAL_ONLY"
+    ingress_settings               = "ALLOW_ALL"
     all_traffic_on_latest_revision = true
     service_account_email          = var.service_account_email
   }
