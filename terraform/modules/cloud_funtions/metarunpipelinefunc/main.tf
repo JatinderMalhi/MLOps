@@ -48,6 +48,7 @@ resource "google_cloudfunctions2_function" "function_trigger_meta_model_training
     max_instance_count = 3
     min_instance_count = 1
     available_memory   = "1G"
+    available_cpu = "1"
     timeout_seconds    = 60
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
