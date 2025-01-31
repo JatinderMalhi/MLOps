@@ -74,12 +74,12 @@ resource "google_cloud_scheduler_job" "invoke_meta_training_function" {
   description = "Schedule to run the meta model training pipeline weekly"
   region = var.region
   http_target {
-    uri         = google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline.url
+    uri         = google_cloudfunctions2_function.function_trigger_meta_training_pipeline.url
     http_method = "GET"
     oidc_token {
       service_account_email = var.service_account_email
     }
   }
 
-  depends_on = [google_cloudfunctions2_function.function_trigger_meta_model_training_pipeline]
+  depends_on = [google_cloudfunctions2_function.function_trigger_meta_training_pipeline]
 }
