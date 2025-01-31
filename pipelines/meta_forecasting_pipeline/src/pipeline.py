@@ -79,28 +79,37 @@ def pipeline(
     project: str = PROJECT_ID,
     location: str = LOCATION,
 ):
-
-    bq_arima_model_exp_op = BigqueryCreateModelJobOp(
-        query=f"""
-        -- create model table
-            CREATE OR REPLACE MODEL
-              `{project}.{bq_dataset}.meta_forecast_model` 
-                  OPTIONS ( model_type = 'ARIMA_PLUS',
+    logging.info("Starting ARIMA model creation step")
+    model_query = f"""
+        CREATE OR REPLACE MODEL
+          `{project}.{bq_dataset}.meta_forecast_model` 
+            OPTIONS (
+                model_type = 'ARIMA_PLUS',
                 TIME_SERIES_TIMESTAMP_COL = 'timestamp',
                 TIME_SERIES_DATA_COL = 'close',
                 TIME_SERIES_ID_COL = 'id',
                 DATA_FREQUENCY = 'HOURLY',
-                HORIZON = 168) AS ( training_data AS (
+                HORIZON = 168
+            ) AS (
                 SELECT
-                  id,
-                  timestamp,
-                  close
+                    id,
+                    timestamp,
+                    close
                 FROM
-                  `{project}.{bq_dataset}.{bq_training_table}`
+                    `{project}.{bq_dataset}.{bq_training_table}`
                 WHERE
-                  split = 'TRAIN' And timestamp > TIMESTAMP_SUB((SELECT MAX(timestamp) FROM `{project}.{bq_dataset}.{bq_training_table}`), INTERVAL (365 * 2) DAY)
-                  ) )
-        """,
+                    split = 'TRAIN'
+                    AND timestamp > TIMESTAMP_SUB(
+                        (SELECT MAX(timestamp) FROM `{project}.{bq_dataset}.{bq_training_table}`),
+                        INTERVAL (365 * 2) DAY
+                    )
+            )
+    """
+
+    logging.debug(f"Model creation query: {model_query}")
+
+    bq_arima_model_exp_op = BigqueryCreateModelJobOp(
+        query=model_query,
         project=project,
         location=location,
     ).set_display_name("arima+ model experiment")
@@ -146,7 +155,7 @@ def pipeline(
                     TIME_SERIES_DATA_COL = 'close',
                     TIME_SERIES_ID_COL = 'id',
                     DATA_FREQUENCY = 'HOURLY',
-                    HORIZON = 168) AS ( training_data AS (
+                    HORIZON = 168) AS (
                     SELECT
                       id,
                       timestamp,
@@ -155,7 +164,7 @@ def pipeline(
                        `{project}.{bq_dataset}.{bq_training_table}`
                     WHERE
                        timestamp > TIMESTAMP_SUB((SELECT MAX(timestamp) FROM `{project}.{bq_dataset}.{bq_training_table}`), INTERVAL (365 * 2) DAY)
-                    ))
+                    )
             """,
             project=project,
             location=location,

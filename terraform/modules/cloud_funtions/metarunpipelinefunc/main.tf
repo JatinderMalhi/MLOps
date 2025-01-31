@@ -49,7 +49,7 @@ resource "google_cloudfunctions2_function" "function_trigger_meta_training_pipel
     min_instance_count = 1
     available_memory   = "1G"
     available_cpu = "1"
-    timeout_seconds    = 60
+    timeout_seconds    = 600
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
       PROJECT_ID          = var.project_id
@@ -73,6 +73,7 @@ resource "google_cloud_scheduler_job" "invoke_meta_training_function" {
   schedule    = "0 12 * * 6"
   description = "Schedule to run the meta model training pipeline weekly"
   region = var.region
+  attempt_deadline = "1000s"
   http_target {
     uri         = google_cloudfunctions2_function.function_trigger_meta_training_pipeline.url
     http_method = "GET"

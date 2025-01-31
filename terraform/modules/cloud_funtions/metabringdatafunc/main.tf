@@ -49,7 +49,7 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
     max_instance_count = 3
     min_instance_count = 1
     available_memory   = "256M"
-    timeout_seconds    = 60
+    timeout_seconds    = 600
     environment_variables = {
       SERVICE_CONFIG_TEST = "config_test"
       TABLE_ID            = var.table_id
@@ -73,6 +73,7 @@ resource "google_cloud_scheduler_job" "invoke_cloud_function" {
   schedule    = "0 0 * * 6"
   project     = var.project_id
   region      = var.region
+  attempt_deadline = "600s"
 
   http_target {
     uri         = google_cloudfunctions2_function.func_trigger_bucket_to_bigquery.url
