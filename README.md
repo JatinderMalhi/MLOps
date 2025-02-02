@@ -4,6 +4,11 @@
 
 This project implements an end to end forecasting pipeline using Google Cloud services, integrating data extraction, transformation, machine learning modeling, and visualisation. The architecture ensures automation and scalability, leveraging GitHub Actions for CI/CD.
 
+## Agile Methodology
+
+*   **Methodology:** Scrum
+*   **Project Tool:** GitHub (Issues, Project Boards)
+   
 ## Architecture
 
 The pipeline consists of the following key components:
@@ -47,6 +52,8 @@ The forecasting results are visualised over time, showing incremental trends in 
 
 ## Technologies Used
 
+*   **Methodology:** Scrum
+*   **Project Tool:** GitHub (Issues, Project Boards)
 *   **Google Cloud Services:** Cloud Scheduler, Cloud Functions, BigQuery, Cloud Build, Artifact Registry, Cloud Storage, Vertex AI
 *   **Data Processing:** Dataform
 *   **CI/CD:** GitHub Actions, Terraform
