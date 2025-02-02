@@ -37,8 +37,7 @@ The pipeline consists of the following key components:
 
 ## Forecast Outcome
 
-The pipeline outcome:
-![Alt Text for Forecasting Image](images/forecasting_image.jpg)
+![Alt Text for Forecasting Image](images/forecasting_image.png)
 
 The forecasting results are visualised over time, showing incremental trends in forecasted values. The visualisation demonstrates:
 
