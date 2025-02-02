@@ -36,6 +36,8 @@ The pipeline consists of the following key components:
     *   GitHub Actions trigger Cloud Build for container and ML pipeline execution.
 
 ## Forecast Outcome
+
+The pipeline outcome:
 ![Alt Text for Forecasting Image](images/forecasting_image.jpg)
 
 The forecasting results are visualised over time, showing incremental trends in forecasted values. The visualisation demonstrates:
