@@ -70,7 +70,8 @@ resource "google_cloudfunctions2_function" "function_trigger_meta_training_pipel
 resource "google_cloud_scheduler_job" "invoke_meta_training_function" {
   project     = var.project_id
   name        = "invoke-meta-model-training-function"
-  schedule    = "0 12 * * 6"
+  schedule    = "0 16 * * 6"
+  time_zone        = "America/New_York"
   description = "Schedule to run the meta model training pipeline weekly"
   region = var.region
   attempt_deadline = "1000s"

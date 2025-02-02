@@ -26,4 +26,5 @@ def run_pipeline(request):
         enable_caching=False,
     )
     job.run(service_account=service_account)
-    logging.info("Pipeline job submitted successfully")
+    print("Pipeline job submitted successfully")
+    return 200
