@@ -1,11 +1,11 @@
 variable "project_id" {
   description = "project id for the resource"
-  type = string
+  type        = string
 }
 
 variable "region" {
   description = "bucket region"
-  type = string
+  type        = string
 }
 
 variable "cloud_build_github_pat" {
@@ -14,8 +14,8 @@ variable "cloud_build_github_pat" {
 
 variable "connection_name" {
   description = "The name for the GitHub Cloud Build connection"
-  type = string
-  default = "mlops_connection_github"
+  type        = string
+  default     = "mlops_connection_github"
 }
 
 variable "installation_id" {
@@ -23,7 +23,7 @@ variable "installation_id" {
 }
 
 variable "secret_id" {
-description = "github-token-secret"  
+  description = "github-token-secret"
 }
 
 variable "project_number" {
@@ -36,6 +36,6 @@ variable "remote_uri" {
 
 variable "name_repo" {
   description = "name of the repo"
-  type = string
-  default = "MLOps"
+  type        = string
+  default     = "MLOps"
 }

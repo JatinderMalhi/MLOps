@@ -1,11 +1,11 @@
 variable "project_id" {
-    description = "project id for the terraform"
-    type = string
+  description = "project id for the terraform"
+  type        = string
 }
 
 variable "region" {
   description = "region for gcp"
-  type = string
+  type        = string
 }
 
 variable "pool_id" {
@@ -22,7 +22,7 @@ variable "installation_id" {
 }
 
 variable "secret_id" {
-description = "github-token-secret"  
+  description = "github-token-secret"
 }
 
 variable "org_id" {
@@ -46,22 +46,22 @@ variable "service_account_id" {
 
 
 variable "project_number" {
-    description = "project id for the terraform"
-    type = string
+  description = "project id for the terraform"
+  type        = string
 }
 
 variable "meta_api_secret_id" {
   description = "meta api secret id"
-  type = string
+  type        = string
 }
 
 variable "meta_api_token" {
   description = "meta api token"
-  type = string  
+  type        = string
 }
 
 variable "meta_compiled_pipeline_bucket_uri" {
   description = "meta pipeline bucket uri stored compiled piepline code"
-  type = string
-  
+  type        = string
+
 }

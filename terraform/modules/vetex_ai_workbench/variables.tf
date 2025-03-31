@@ -1,20 +1,20 @@
 variable "project_id" {
   description = "project id for the resource"
-  type = string
+  type        = string
 }
 
 variable "region_zone" {
   description = "instance zonal region"
-  default = "us-central1-a"
+  default     = "us-central1-a"
 }
 
 variable "service_account_email" {
   description = "service account email for the vertex ai notbook"
-  type = string
+  type        = string
 }
 
 variable "instance_name" {
   description = "name of the instance notebook"
-  type = string
-  default = "mlops-project"
+  type        = string
+  default     = "mlops-project"
 }

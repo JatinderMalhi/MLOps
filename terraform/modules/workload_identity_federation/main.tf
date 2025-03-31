@@ -1,6 +1,6 @@
 resource "google_iam_workload_identity_pool" "pool" {
   workload_identity_pool_id = var.pool_id
-  display_name = "mlops"
+  display_name              = "mlops"
 }
 
 resource "google_iam_workload_identity_pool_provider" "mlops" {
@@ -9,7 +9,7 @@ resource "google_iam_workload_identity_pool_provider" "mlops" {
   display_name                       = "Github"
   description                        = "GitHub Actions identity pool provider for automation"
   disabled                           = false
-  attribute_condition = <<EOT
+  attribute_condition                = <<EOT
     assertion.repository_owner_id == "${var.org_id}" &&
     attribute.repository == "${var.repo}" &&
     assertion.ref == "refs/heads/main" &&
@@ -28,11 +28,11 @@ EOT
 
 
 resource "google_service_account_iam_binding" "workload_identity_iam" {
-service_account_id = "projects/${var.project_id}/serviceAccounts/${var.service_account_id}"
-role = "roles/iam.workloadIdentityUser"
-members = [
-"principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.repository/${var.repo}"
-]
+  service_account_id = "projects/${var.project_id}/serviceAccounts/${var.service_account_id}"
+  role               = "roles/iam.workloadIdentityUser"
+  members = [
+    "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.repository/${var.repo}"
+  ]
 
-depends_on = [ google_iam_workload_identity_pool_provider.mlops ]
+  depends_on = [google_iam_workload_identity_pool_provider.mlops]
 }

@@ -68,18 +68,19 @@ resource "google_cloudfunctions2_function" "func_trigger_bucket_to_bigquery" {
 }
 
 resource "google_cloud_scheduler_job" "invoke_cloud_function" {
-  name        = "invoke-meta-fetch-data-function"
-  description = "Schedule the HTTPS trigger for cloud function"
-  schedule    = "0 6 * * 6"
+  paused           = true
+  name             = "invoke-meta-fetch-data-function"
+  description      = "Schedule the HTTPS trigger for cloud function"
+  schedule         = "0 6 * * 6"
   time_zone        = "America/New_York"
-  project     = var.project_id
-  region      = var.region
+  project          = var.project_id
+  region           = var.region
   attempt_deadline = "600s"
 
   http_target {
     uri         = google_cloudfunctions2_function.func_trigger_bucket_to_bigquery.url
     http_method = "GET"
-  
+
     oidc_token {
       service_account_email = var.service_account_email
     }

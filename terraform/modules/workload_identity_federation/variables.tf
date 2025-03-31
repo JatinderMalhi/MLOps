@@ -19,12 +19,12 @@ variable "service_account_id" {
 }
 
 variable "project_id" {
-    description = "project id for the terraform"
-    type = string
+  description = "project id for the terraform"
+  type        = string
 }
 
 variable "project_number" {
-    description = "project id for the terraform"
-    type = string
+  description = "project id for the terraform"
+  type        = string
 }
 
